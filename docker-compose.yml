@@ -1,0 +1,42 @@
+version: "3"
+
+volumes:
+  mysql-data:
+  source:
+
+services:
+  mariadb:
+    image: mariadb
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+      - ./docker-init-queries.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - MYSQL_DATABASE=rest_api
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "3306:3306"
+
+  redis:
+    image: redis
+
+  nginx:
+    restart: always
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/rest_api
+      - ./docker-nginx-site.conf:/etc/nginx/conf.d/site.conf
+      - ./var/log:/var/log/nginx
+    links:
+      - app
+
+  app:
+    restart: always
+    build: .
+    volumes:
+      - ./:/rest_api
+    working_dir: /rest_api
+    links:
+      - mariadb
+      - redis

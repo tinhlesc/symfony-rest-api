@@ -22,3 +22,8 @@ reports/
 mysql-data/
 .idea/
 .php-cs-fixer.dist.php
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

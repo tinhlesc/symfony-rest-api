@@ -2,6 +2,11 @@
 
 namespace App\Tests\Controller;
 
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Persistence\ObjectManager;
 use Exception;
 use FOS\OAuthServerBundle\Model\ClientInterface;
 use FOS\OAuthServerBundle\Model\ClientManagerInterface;
@@ -28,6 +33,11 @@ abstract class WebTestCaseAbstract extends WebTestCase
     protected $client;
 
     /**
+     * @var ObjectManager
+     */
+    protected $entityManager;
+
+    /**
      * @throws Exception
      */
     protected function setUp(): void
@@ -35,8 +45,17 @@ abstract class WebTestCaseAbstract extends WebTestCase
         parent::setUp();
 
         $this->client = self::createClient();
+        static::$kernel = static::createKernel();
+        static::$kernel->boot();
+        $this->entityManager = static::$kernel->getContainer()
+            ->get('doctrine')
+            ->getManager()
+        ;
     }
 
+    /**
+     * @return ClientInterface
+     */
     protected function assignApiClient(): ClientInterface
     {
         /** @var ClientManagerInterface $clientManager */
@@ -49,6 +68,11 @@ abstract class WebTestCaseAbstract extends WebTestCase
         return $client;
     }
 
+    /**
+     * @param string $clientId
+     * @param string $clientSecret
+     * @return string
+     */
     protected function getAccessToken(string $clientId, string $clientSecret): string
     {
         $this->client->request(
@@ -74,5 +98,17 @@ abstract class WebTestCaseAbstract extends WebTestCase
         }
 
         return '';
+    }
+
+    /**
+     * @param FixtureInterface $fixture
+     */
+    public function loadFixture(FixtureInterface $fixture)
+    {
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->entityManager, $purger);
+        $executor->execute($loader->getFixtures(), true);
     }
 }

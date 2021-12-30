@@ -1,3 +1,14 @@
+### Composer command
+- composer require --dev symfony/test-pack 
+- composer require --dev dama/doctrine-test-bundle
+- composer require --dev doctrine/doctrine-fixtures-bundle
+
+### Symfony command
+- php bin/console --env=test doctrine:database:create
+- php bin/console --env=test doctrine:schema:create
+- php bin/console make:fixtures
+- php bin/console doctrine:fixtures:load
+
 ### Docker command
 - docker-compose up -d
 - docker-compose down
@@ -12,3 +23,6 @@
 ### Create Fos User
 - docker exec -it rest_api_demo_app_1 /bin/bash
 - php bin/console fos:user:create admin
+
+### Referent
+- https://symfony.com/doc/current/testing.html

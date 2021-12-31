@@ -2,31 +2,25 @@
 
 namespace App\Repository;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
-class BaseRepository extends EntityRepository
+class BaseRepository extends ServiceEntityRepository
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager, string $entityClass)
+    public function __construct(ManagerRegistry $registry, string $entityClass = '')
     {
-        parent::__construct($entityManager, $entityManager->getClassMetadata($entityClass));
-        $this->entityManager = $entityManager;
+        parent::__construct($registry, $entityClass);
     }
 
     public function save($entity)
     {
-        $this->entityManager->persist($entity);
-        $this->entityManager->flush();
+        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->flush();
     }
 
     public function remove($entity)
     {
-        $this->entityManager->remove($entity);
-        $this->entityManager->flush();
+        $this->getEntityManager()->remove($entity);
+        $this->getEntityManager()->flush();
     }
 }

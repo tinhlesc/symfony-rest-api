@@ -15,12 +15,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Class WebTestCaseAbstract.
- *
- * @author Voycer Development <dev@voycer.com>
- */
-abstract class WebTestCaseAbstract extends WebTestCase
+class BaseControllerTest extends WebTestCase
 {
     /**
      * Default content type.
@@ -53,7 +48,7 @@ abstract class WebTestCaseAbstract extends WebTestCase
         ;
     }
 
-    protected function assignApiClient(): ClientInterface
+    protected function getApiClient(): ClientInterface
     {
         /** @var ClientManagerInterface $clientManager */
         $clientManager = self::$container->get('fos_oauth_server.client_manager.default');

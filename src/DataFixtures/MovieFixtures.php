@@ -8,13 +8,14 @@ use Doctrine\Persistence\ObjectManager;
 
 class MovieFixtures extends Fixture
 {
-    public function load(ObjectManager $manager): void
+    public function load(ObjectManager $manager)
     {
         $movie = new Movie();
         $movie->setName('Movie name');
         $movie->setDescription('Movie description');
         $manager->persist($movie);
-
         $manager->flush();
+
+        return $movie;
     }
 }

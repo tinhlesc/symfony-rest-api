@@ -69,17 +69,18 @@ class MovieController extends AbstractFOSRestController
      * Put|Patch Movie.
      *
      * @Rest\Put("/movies/{id}")
+     * @Rest\Patch("/movies/{id}")
      */
     public function putMovieAction(Request $request, $id, MovieRepository $movieRepository): Response
     {
-        $repository = $this->getDoctrine()->getRepository(Movie::class);
-        $movie = $repository->find($id);
+        $movie = $movieRepository->find($id);
         if (!$movie) {
             return $this->handleView($this->view(['error' => 'The movie was not found.'], Response::HTTP_BAD_REQUEST));
         }
 
         $form = $this->createForm(MovieType::class, $movie);
-        $form->submit($request->request->all(), Request::METHOD_PATCH !== $request->getMethod());
+        $data = json_decode($request->getContent(), true);
+        $form->submit($data, Request::METHOD_PATCH !== $request->getMethod());
         if ($form->isSubmitted() && $form->isValid()) {
             $movieRepository->save($movie);
 

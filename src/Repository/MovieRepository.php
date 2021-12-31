@@ -3,12 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\Movie;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 class MovieRepository extends BaseRepository
 {
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($entityManager, Movie::class);
+        parent::__construct($registry, Movie::class);
     }
 }

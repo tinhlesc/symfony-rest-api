@@ -53,9 +53,6 @@ abstract class WebTestCaseAbstract extends WebTestCase
         ;
     }
 
-    /**
-     * @return ClientInterface
-     */
     protected function assignApiClient(): ClientInterface
     {
         /** @var ClientManagerInterface $clientManager */
@@ -68,11 +65,6 @@ abstract class WebTestCaseAbstract extends WebTestCase
         return $client;
     }
 
-    /**
-     * @param string $clientId
-     * @param string $clientSecret
-     * @return string
-     */
     protected function getAccessToken(string $clientId, string $clientSecret): string
     {
         $this->client->request(
@@ -100,9 +92,6 @@ abstract class WebTestCaseAbstract extends WebTestCase
         return '';
     }
 
-    /**
-     * @param FixtureInterface $fixture
-     */
     public function loadFixture(FixtureInterface $fixture)
     {
         $loader = new Loader();

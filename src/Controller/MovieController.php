@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Movie;
 use App\Form\Type\MovieType;
+use App\Repository\MovieRepository;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -22,10 +23,9 @@ class MovieController extends AbstractFOSRestController
      *
      * @Rest\Get("/movies")
      */
-    public function getMovieAction(): Response
+    public function getMovieAction(MovieRepository $movieRepository): Response
     {
-        $repository = $this->getDoctrine()->getRepository(Movie::class);
-        $movies = $repository->findAll();
+        $movies = $movieRepository->findAll();
 
         return $this->handleView($this->view($movies));
     }
@@ -35,10 +35,9 @@ class MovieController extends AbstractFOSRestController
      *
      * @Rest\Get("/movies/{id}")
      */
-    public function viewMovieAction($id): Response
+    public function viewMovieAction($id, MovieRepository $movieRepository): Response
     {
-        $repository = $this->getDoctrine()->getRepository(Movie::class);
-        $movie = $repository->find($id);
+        $movie = $movieRepository->find($id);
         if ($movie) {
             return $this->handleView($this->view($movie));
         }
@@ -51,18 +50,16 @@ class MovieController extends AbstractFOSRestController
      *
      * @Rest\Post("/movies")
      */
-    public function postMovieAction(Request $request): Response
+    public function postMovieAction(Request $request, MovieRepository $movieRepository): Response
     {
         $movie = new Movie();
         $form = $this->createForm(MovieType::class, $movie);
         $data = json_decode($request->getContent(), true);
         $form->submit($data);
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($movie);
-            $em->flush();
+            $movieRepository->save($movie);
 
-            return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
+            return $this->handleView($this->view([], Response::HTTP_CREATED));
         }
 
         return $this->handleView($this->view($form->getErrors()));
@@ -73,7 +70,7 @@ class MovieController extends AbstractFOSRestController
      *
      * @Rest\Put("/movies/{id}")
      */
-    public function putMovieAction(Request $request, $id): Response
+    public function putMovieAction(Request $request, $id, MovieRepository $movieRepository): Response
     {
         $repository = $this->getDoctrine()->getRepository(Movie::class);
         $movie = $repository->find($id);
@@ -84,9 +81,7 @@ class MovieController extends AbstractFOSRestController
         $form = $this->createForm(MovieType::class, $movie);
         $form->submit($request->request->all(), Request::METHOD_PATCH !== $request->getMethod());
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($movie);
-            $em->flush();
+            $movieRepository->save($movie);
 
             return $this->handleView($this->view([], Response::HTTP_NO_CONTENT));
         }

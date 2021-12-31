@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\DataFixtures\MovieFixtures;
+use App\Entity\Movie;
 use Symfony\Component\HttpFoundation;
 
 class MovieControllerTest extends WebTestCaseAbstract
@@ -23,7 +24,7 @@ class MovieControllerTest extends WebTestCaseAbstract
     public function testPostMovie()
     {
         $postData = [
-            'name' => 'Movie title 1',
+            'name' => 'Movie name',
             'description' => 'Movie description',
         ];
         $this->client->request(
@@ -39,6 +40,12 @@ class MovieControllerTest extends WebTestCaseAbstract
         );
 
         $this->assertEquals(HttpFoundation\Response::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
+
+        $movieRepository = $this->entityManager->getRepository(Movie::class);
+        $movie = $movieRepository->findOneBy(['name' => 'Movie name']);
+        $this->assertNotEmpty($movie);
+        $this->assertSame('Movie name', $movie->getName());
+        $this->assertSame('Movie description', $movie->getDescription());
     }
 
     public function testGetMovie()

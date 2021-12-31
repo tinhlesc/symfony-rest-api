@@ -59,7 +59,7 @@ class MovieController extends AbstractFOSRestController
         if ($form->isSubmitted() && $form->isValid()) {
             $movieRepository->save($movie);
 
-            return $this->handleView($this->view([], Response::HTTP_CREATED));
+            return $this->handleView($this->view(null, Response::HTTP_CREATED));
         }
 
         return $this->handleView($this->view($form->getErrors()));
@@ -84,7 +84,7 @@ class MovieController extends AbstractFOSRestController
         if ($form->isSubmitted() && $form->isValid()) {
             $movieRepository->save($movie);
 
-            return $this->handleView($this->view([], Response::HTTP_NO_CONTENT));
+            return $this->handleView($this->view(null, Response::HTTP_NO_CONTENT));
         }
 
         return $this->handleView($this->view($form->getErrors()));
@@ -107,6 +107,6 @@ class MovieController extends AbstractFOSRestController
         $em->remove($movie);
         $em->flush();
 
-        return $this->handleView($this->view([], Response::HTTP_NO_CONTENT));
+        return $this->handleView($this->view(null, Response::HTTP_NO_CONTENT));
     }
 }

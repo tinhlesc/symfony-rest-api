@@ -6,7 +6,7 @@ use App\DataFixtures\MovieFixtures;
 use App\Entity\Movie;
 use Symfony\Component\HttpFoundation;
 
-class MovieWebTestCase extends BaseWebTestCase
+class MovieControllerTest extends BaseWebTestCase
 {
     /**
      * @var string
@@ -166,7 +166,7 @@ class MovieWebTestCase extends BaseWebTestCase
             [
                 'HTTP_ACCEPT' => 'application/json',
                 'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $this->accessToken),
-            ],
+            ]
         );
 
         $this->assertEquals(HttpFoundation\Response::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());

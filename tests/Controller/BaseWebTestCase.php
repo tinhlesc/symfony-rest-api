@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class BaseControllerTest extends WebTestCase
+class BaseWebTestCase extends WebTestCase
 {
     /**
      * Default content type.

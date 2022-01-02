@@ -6,7 +6,7 @@ use App\DataFixtures\MovieFixtures;
 use App\Entity\Movie;
 use Symfony\Component\HttpFoundation;
 
-class MovieControllerTest extends BaseControllerTest
+class MovieWebTestCase extends BaseWebTestCase
 {
     /**
      * @var string

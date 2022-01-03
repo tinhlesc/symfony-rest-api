@@ -20,22 +20,19 @@ class MovieServiceTest extends TestCase
             ->willReturn([$movie, $movie]);
 
         $movieService = new MovieService($movieRepositoryMock);
-        $number = $movieService->countMovie();
+        $number = $movieService->totalMovie();
         $this->assertSame(2, $number);
     }
 
     public function testStubCountMovie()
     {
-        $movie = new Movie();
-        $movie->setName('Movie mock name');
-        $movie->setName('Movie mock description');
-        $movieRepositoryStub = $this->createStub(MovieRepository::class);
-        $movieRepositoryStub
-            ->method('findAll')
-            ->willReturn([$movie, $movie]);
+        $stub = $this->getMockBuilder(MovieService::class)->setMethods(['totalMovie'])->disableOriginalConstructor()->getMock();
+        $stub->method('totalMovie')->will($this->onConsecutiveCalls(1, 2));
 
-        $movieService = new MovieService($movieRepositoryStub);
-        $number = $movieService->countMovie();
-        $this->assertSame(2, $number);
+        $countNextMovie = $stub->nextTotalMovie();
+        $this->assertSame(2, $countNextMovie);
+
+        $countNextMovie = $stub->nextTotalMovie();
+        $this->assertSame(3, $countNextMovie);
     }
 }

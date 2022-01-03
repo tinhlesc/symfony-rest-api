@@ -16,7 +16,12 @@ class MovieService
         $this->movieRepository = $movieRepository;
     }
 
-    public function countMovie(): int
+    public function nextTotalMovie(): int
+    {
+        return $this->totalMovie() + 1;
+    }
+
+    public function totalMovie(): int
     {
         return count($this->movieRepository->findAll());
     }

@@ -24,7 +24,7 @@ class SecurityController extends AbstractFOSRestController
      *
      * @return Response
      */
-    public function AuthenticationAction(Request $request)
+    public function authenticationAction(Request $request)
     {
         $data = json_decode($request->getContent(), true);
         if (empty($data['redirect-uri']) || empty($data['grant-type'])) {

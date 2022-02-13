@@ -12,66 +12,67 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Movie
 {
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
+     * @var string|null
+     *
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank()
      */
     private $name;
+
     /**
+     * @var string|null
      * @ORM\Column(type="text")
      * @Assert\NotBlank()
      */
     private $description;
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * @param mixed $name
+     * @param string|null $name
      */
-    public function setName($name)
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @param mixed $description
+     * @param string|null $description
      */
-    public function setDescription($description)
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }

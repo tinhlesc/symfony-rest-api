@@ -27,7 +27,7 @@ services:
     volumes:
       - ./:/rest_api
       - ./docker-nginx-site.conf:/etc/nginx/conf.d/site.conf
-      - ./var/log:/var/log/nginx
+#      - ./var/log:/var/log/nginx
     links:
       - app
 

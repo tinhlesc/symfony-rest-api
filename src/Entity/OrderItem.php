@@ -13,7 +13,7 @@ class OrderItem
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -37,9 +37,20 @@ class OrderItem
      */
     private $orderRef;
 
-    public function getId(): ?int
+    /**
+     * @return mixed
+     */
+    public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
     }
 
     public function getProduct(): ?Product
@@ -88,8 +99,6 @@ class OrderItem
 
     /**
      * Calculates the item total.
-     *
-     * @return float|int
      */
     public function getTotal(): float
     {

@@ -6,6 +6,7 @@
 /public/bundles/
 /var/
 /vendor/
+public/product/images
 ###< symfony/framework-bundle ###
 
 ###> friendsofphp/php-cs-fixer ###
@@ -23,7 +24,3 @@ mysql-data/
 .idea/
 .php-cs-fixer.dist.php
 
-###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
-###< phpunit/phpunit ###

@@ -46,9 +46,6 @@ class ProductImageService
         return $newFilename;
     }
 
-    /**
-     * @return string
-     */
     public function getImagePath(): string
     {
         return '/public/product/images/';

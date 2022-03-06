@@ -21,14 +21,19 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ProductController extends AbstractFOSRestController
 {
+    public const PRODUCT_PAGE_LIMIT = 10;
+    public const PRODUCT_PAGE_OFFSET = 0;
+
     /**
      * Lists all product.
      *
      * @Rest\Get("/products")
      */
-    public function getProductAction(ProductRepository $productRepository): Response
+    public function getProductAction(Request $request, ProductRepository $productRepository): Response
     {
-        $products = $productRepository->findAll();
+        $limit = $request->get('limit', self::PRODUCT_PAGE_LIMIT);
+        $offset = $request->get('offset', self::PRODUCT_PAGE_OFFSET);
+        $products = $productRepository->findBy([], [], $limit, $offset);
 
         return $this->handleView($this->view($products));
     }
